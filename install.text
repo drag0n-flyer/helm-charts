@@ -1,0 +1,80 @@
+cat << EOF > values.yaml
+dev:
+  imagePullSecrets:
+storageClassName: local-path
+
+shkeeper:
+  image: drag0nflyer/shkeeper:latest
+
+btc:
+  enabled: true
+ltc:
+  enabled: false
+doge:
+  enabled: false
+
+tron_fullnode:
+  enabled: true
+  url: http://fullnode.tron.shkeeper.io
+  image: drag0nflyer/tron-shkeeper:latest
+  host: 'tron-shkeeper'
+  port: 6000
+
+tron_shkeeper:
+  image: drag0nflyer/tron-shkeeper:latest
+  host: 'tron-shkeeper'
+  port: 6000
+
+trx:
+  enabled: true
+usdt:
+  enabled: false
+usdc:
+  enabled: false
+
+eth:
+  enabled: false
+eth_usdt:
+  enabled: false
+eth_usdc:
+  enabled: false
+
+#
+# Monero
+#
+
+monero:
+  enabled: false
+  image: vsyshost/monero:v0.18.1.2
+  mainnet: true
+
+  fullnode:
+    enabled: false
+    monerod:
+      host: "monerod"
+      port: "1111"
+      user: "monerod"
+      password: "monerod"
+      nodeSelector: {}
+      tolerations: []
+
+EOF
+
+
+
+kubectl -n shkeeper describe pod shkeeper
+helm delete shkeeper
+helm repo remove drag0n-flyer
+helm repo remove shkeeper
+
+helm repo add drag0n-flyer https://drag0n-flyer.github.io/helm-charts
+helm install -f values.yaml shkeeper drag0n-flyer/shkeeper
+
+kubectl get pods -n shkeeper
+
+kubectl get secrets -n shkeeper
+kubectl describe secret usdt-rpc -n shkeeper
+
+
+kubectl create secret generic usdt-rpc -n shkeeper --from-literal=username=Yml0Y29pbmQtdXNlcg== --from-literal=password=Yml0Y29pbmQtdXNlcg==
+kubectl create secret generic bitcoin-rpc -n shkeeper --from-literal=username=Yml0Y29pbmQtdXNlcg== --from-literal=password=Yml0Y29pbmQtdXNlcg==
