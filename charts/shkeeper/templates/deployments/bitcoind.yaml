@@ -38,7 +38,7 @@ spec:
 
 
       - name: bitcoind
-        image: vsyshost/bitcoind
+        image: lncm/bitcoind
         env:
           - name: BTC_USERNAME
             valueFrom:

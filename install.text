@@ -6,6 +6,9 @@ storageClassName: local-path
 shkeeper:
   image: drag0nflyer/shkeeper:latest
 
+shkeeper:
+  image: drag0nflyer/shkeeper:latest
+
 btc:
   enabled: true
 ltc:
@@ -75,6 +78,11 @@ kubectl get pods -n shkeeper
 kubectl get secrets -n shkeeper
 kubectl describe secret usdt-rpc -n shkeeper
 
+kubectl apply -f
+kubectl delete pods --all -n shkeeper
+
 
 kubectl create secret generic usdt-rpc -n shkeeper --from-literal=username=Yml0Y29pbmQtdXNlcg== --from-literal=password=Yml0Y29pbmQtdXNlcg==
 kubectl create secret generic bitcoin-rpc -n shkeeper --from-literal=username=Yml0Y29pbmQtdXNlcg== --from-literal=password=Yml0Y29pbmQtdXNlcg==
+
+
