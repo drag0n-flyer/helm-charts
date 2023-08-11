@@ -38,7 +38,7 @@ spec:
 
 
       - name: bitcoind
-        image: lncm/bitcoind
+        image: lncm/bitcoind:v25.0
         env:
           - name: BTC_USERNAME
             valueFrom:
